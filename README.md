@@ -68,7 +68,7 @@ $ terraform apply
 $ ./deploy.sh
 ```
 
-3. Excecute the workload manually:
+3. Excecute the workflow manually:
 
 ```shell
 $ gcloud workflows run calc-workflow --project <project_id> --location <YOUR_PROJECT_REGION>
