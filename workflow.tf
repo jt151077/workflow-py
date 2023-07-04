@@ -23,16 +23,23 @@ resource "google_workflows_workflow" "calc-workflow" {
   project         = local.project_id
   name            = "calc-workflow"
   region          = local.project_default_region
+  service_account = google_service_account.workflows_sa.id
+
+
   source_contents = <<-EOF
     - randomgen_function:
         call: http.get
         args:
             url: ${module.cf-randomgen.function_uri}
+            auth:
+              type: OIDC
         result: randomgen_result
     - multiply_function:
         call: http.post
         args:
             url: https://multiplyrun-nc36gpwfva-ew.a.run.app
+            auth:
+              type: OIDC
             body:
                 input: $${randomgen_result.body.random}
         result: floor_result
